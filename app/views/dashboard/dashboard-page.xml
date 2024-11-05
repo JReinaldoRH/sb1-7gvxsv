@@ -1,0 +1,172 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo" class="page-background">
+    <ActionBar title="Mi Finanzas" class="bg-[#7C9D96] text-white">
+        <NavigationButton visibility="collapsed" />
+        <ActionItem ios.position="right" android.position="actionBar">
+            <GridLayout columns="auto, auto" class="mr-2">
+                <Label col="0" text="&#xf0f3;" class="fas text-xl mr-4" tap="{{ onNotificationsTap }}" />
+                <Label col="1" text="&#xf013;" class="fas text-xl" tap="{{ onSettingsTap }}" />
+            </GridLayout>
+        </ActionItem>
+    </ActionBar>
+
+    <GridLayout rows="*, auto">
+        <!-- Contenido Principal -->
+        <GridLayout row="0">
+            <ScrollView>
+                <StackLayout class="p-4">
+                    <!-- Balance Total -->
+                    <StackLayout class="card">
+                        <GridLayout columns="*, auto">
+                            <StackLayout col="0">
+                                <Label text="Balance Total" class="text-gray-500 mb-1" />
+                                <Label text="{{ totalBalance | currencyFilter }}" class="text-3xl font-bold text-[#7C9D96]" />
+                            </StackLayout>
+                            <Button col="1" text="&#xf201;" class="fas btn-outline" tap="{{ onShowReportsTap }}" />
+                        </GridLayout>
+                        <GridLayout columns="*, *" class="mt-3">
+                            <StackLayout col="0">
+                                <Label text="Ingresos del Mes" class="text-gray-500" />
+                                <Label text="{{ monthlyIncome | currencyFilter }}" class="amount-positive" />
+                                <Label text="{{ monthlyIncomePercentage }}% vs mes anterior" class="text-xs text-gray-500" />
+                            </StackLayout>
+                            <StackLayout col="1">
+                                <Label text="Gastos del Mes" class="text-gray-500" />
+                                <Label text="{{ monthlyExpenses | currencyFilter }}" class="amount-negative" />
+                                <Label text="{{ monthlyExpensesPercentage }}% vs mes anterior" class="text-xs text-gray-500" />
+                            </StackLayout>
+                        </GridLayout>
+                    </StackLayout>
+
+                    <!-- Recordatorios -->
+                    <ListView items="{{ activeReminders }}" class="mt-4" visibility="{{ activeReminders.length > 0 ? 'visible' : 'collapsed' }}">
+                        <ListView.itemTemplate>
+                            <GridLayout columns="auto, *, auto" class="card bg-[#FFF9E8]">
+                                <Label col="0" text="&#xf0f3;" class="fas text-[#E4B048]" />
+                                <StackLayout col="1" class="ml-2">
+                                    <Label text="{{ title }}" class="font-bold" />
+                                    <Label text="{{ message }}" class="text-gray-600" textWrap="true" />
+                                </StackLayout>
+                                <Label col="2" text="&#xf00d;" class="fas text-gray-400" tap="{{ $parent.dismissReminder }}" />
+                            </GridLayout>
+                        </ListView.itemTemplate>
+                    </ListView>
+
+                    <!-- Cuentas -->
+                    <GridLayout rows="auto, auto" class="mt-4">
+                        <GridLayout columns="*, auto" row="0">
+                            <Label text="Mis Cuentas" class="section-title" col="0" />
+                            <Button text="+" tap="{{ onAddAccountTap }}" class="btn-outline" col="1" />
+                        </GridLayout>
+                        <ListView items="{{ accounts }}" class="mb-4" row="1">
+                            <ListView.itemTemplate>
+                                <GridLayout columns="auto, *, auto" class="card" tap="{{ $parent.onAccountDetailTap }}">
+                                    <StackLayout col="0" class="icon-container" backgroundColor="{{ color }}">
+                                        <Label text="{{ icon }}" class="fas text-white" />
+                                    </StackLayout>
+                                    <StackLayout col="1">
+                                        <Label text="{{ name }}" class="font-bold" />
+                                        <Label text="{{ type }}" class="text-gray-500" />
+                                        <Label text="Última transacción: {{ lastTransaction | dateFilter }}" class="text-xs text-gray-400" visibility="{{ lastTransaction ? 'visible' : 'collapsed' }}" />
+                                    </StackLayout>
+                                    <StackLayout col="2">
+                                        <Label text="{{ balance | currencyFilter }}" class="text-right" />
+                                        <Label text="{{ creditLimit | currencyFilter }}" class="text-xs text-gray-400" visibility="{{ type === 'credit' ? 'visible' : 'collapsed' }}" />
+                                    </StackLayout>
+                                </GridLayout>
+                            </ListView.itemTemplate>
+                        </ListView>
+                    </GridLayout>
+
+                    <!-- Metas de Ahorro -->
+                    <GridLayout rows="auto, auto" class="mt-4">
+                        <GridLayout columns="*, auto" row="0">
+                            <Label text="Metas de Ahorro" class="section-title" col="0" />
+                            <Button text="+" tap="{{ onAddGoalTap }}" class="btn-outline" col="1" />
+                        </GridLayout>
+                        <ListView items="{{ savingGoals }}" class="mb-4" row="1">
+                            <ListView.itemTemplate>
+                                <StackLayout class="card" tap="{{ $parent.onGoalDetailTap }}">
+                                    <GridLayout columns="*, auto">
+                                        <StackLayout col="0">
+                                            <Label text="{{ name }}" class="font-bold" />
+                                            <Label text="{{ category }}" class="text-gray-500" visibility="{{ category ? 'visible' : 'collapsed' }}" />
+                                        </StackLayout>
+                                        <Button text="Abonar" tap="{{ $parent.onContributeTap }}" class="btn-secondary" col="1" />
+                                    </GridLayout>
+                                    <GridLayout rows="auto" columns="*, auto" class="mt-2">
+                                        <StackLayout col="0" class="progress-bar">
+                                            <StackLayout class="progress-fill" width="{{ progressPercentage }}%" />
+                                        </StackLayout>
+                                        <Label col="1" text="{{ progressPercentage }}%" class="ml-2 text-[#7C9D96]" />
+                                    </GridLayout>
+                                    <GridLayout columns="*, auto" class="mt-1">
+                                        <Label col="0" text="{{ currentAmount | currencyFilter }} / {{ targetAmount | currencyFilter }}" class="text-gray-500" />
+                                        <Label col="1" text="{{ daysRemaining }} días restantes" class="text-xs text-gray-400" visibility="{{ deadline ? 'visible' : 'collapsed' }}" />
+                                    </GridLayout>
+                                </StackLayout>
+                            </ListView.itemTemplate>
+                        </ListView>
+                    </GridLayout>
+
+                    <!-- Gastos Fijos -->
+                    <GridLayout rows="auto, auto" class="mt-4">
+                        <GridLayout columns="*, auto" row="0">
+                            <Label text="Gastos Fijos" class="section-title" col="0" />
+                            <Button text="+" tap="{{ onAddExpenseTap }}" class="btn-outline" col="1" />
+                        </GridLayout>
+                        <ListView items="{{ fixedExpenses }}" class="mb-4" row="1">
+                            <ListView.itemTemplate>
+                                <GridLayout columns="auto, *, auto" class="card" tap="{{ $parent.onExpenseDetailTap }}">
+                                    <CheckBox col="0" checked="{{ isPaid }}" tap="{{ $parent.togglePaid }}" />
+                                    <StackLayout col="1">
+                                        <Label text="{{ name }}" class="font-bold" />
+                                        <Label text="Vence día {{ dueDay }}" class="text-gray-500" />
+                                        <Label text="Próximo pago: {{ nextDueDate | dateFilter }}" class="text-xs text-gray-400" />
+                                    </StackLayout>
+                                    <StackLayout col="2">
+                                        <Label text="{{ amount | currencyFilter }}" class="{{ isPaid ? 'text-gray-400' : 'amount-negative' }}" />
+                                        <Label text="{{ frequency }}" class="text-xs text-gray-400" />
+                                    </StackLayout>
+                                </GridLayout>
+                            </ListView.itemTemplate>
+                        </ListView>
+                    </GridLayout>
+                </StackLayout>
+            </ScrollView>
+
+            <!-- Botón Flotante -->
+            <AbsoluteLayout>
+                <GridLayout rows="auto, auto, auto, auto" columns="auto" horizontalAlignment="right" verticalAlignment="bottom" margin="20"
+                           visibility="{{ isQuickMenuOpen ? 'visible' : 'collapsed' }}" opacity="{{ isQuickMenuOpen ? 1 : 0 }}"
+                           class="quick-menu">
+                    <Button row="0" text="Ingreso" tap="{{ onQuickIncome }}" class="quick-action-button bg-[#7C9D96]" />
+                    <Button row="1" text="Gasto" tap="{{ onQuickExpense }}" class="quick-action-button bg-[#E76161]" />
+                    <Button row="2" text="Transferencia" tap="{{ onQuickTransfer }}" class="quick-action-button bg-[#F4DFB6]" />
+                    <Button row="3" text="Presupuesto" tap="{{ onQuickBudget }}" class="quick-action-button bg-[#A7D2CB]" />
+                </GridLayout>
+                <Button text="{{ isQuickMenuOpen ? '&#xf00d;' : '+' }}" tap="{{ toggleQuickMenu }}" 
+                        class="floating-button text-white text-2xl fas" />
+            </AbsoluteLayout>
+        </GridLayout>
+
+        <!-- Navegación Inferior -->
+        <GridLayout row="1" columns="*, *, *, *" class="bg-white border-t border-gray-200 p-2">
+            <StackLayout col="0" class="tab-item tab-item-active">
+                <Label text="&#xf015;" class="fas text-2xl" />
+                <Label text="Inicio" class="text-xs" />
+            </StackLayout>
+            <StackLayout col="1" class="tab-item" tap="{{ onTransactionsTap }}">
+                <Label text="&#xf0d6;" class="fas text-2xl" />
+                <Label text="Movimientos" class="text-xs" />
+            </StackLayout>
+            <StackLayout col="2" class="tab-item" tap="{{ onBudgetTap }}">
+                <Label text="&#xf201;" class="fas text-2xl" />
+                <Label text="Presupuesto" class="text-xs" />
+            </StackLayout>
+            <StackLayout col="3" class="tab-item" tap="{{ onStatsTap }}">
+                <Label text="&#xf080;" class="fas text-2xl" />
+                <Label text="Estadísticas" class="text-xs" />
+            </StackLayout>
+        </GridLayout>
+    </GridLayout>
+</Page>

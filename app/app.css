@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.page-background {
+  background-color: #F5F5F0;
+}
+
+.tab-item {
+  @apply text-center py-2;
+}
+
+.tab-item-active {
+  @apply border-b-2 border-[#7C9D96];
+  color: #7C9D96;
+}
+
+.card {
+  background-color: #FFFFFF;
+  border: 1px solid #E8E8E8;
+  @apply rounded-xl shadow-sm p-4 m-2;
+}
+
+.card-header {
+  color: #7C9D96;
+  @apply text-lg font-bold mb-2;
+}
+
+.btn-primary {
+  background-color: #7C9D96;
+  @apply text-white font-bold py-3 px-6 rounded-xl;
+}
+
+.btn-secondary {
+  background-color: #F4DFB6;
+  @apply text-[#7C9D96] font-bold py-3 px-6 rounded-xl;
+}
+
+.btn-outline {
+  border: 2px solid #7C9D96;
+  @apply text-[#7C9D96] font-bold py-2 px-4 rounded-xl;
+}
+
+.input-field {
+  background-color: #F8F8F8;
+  @apply border border-gray-200 rounded-xl p-3 w-full mb-3;
+}
+
+.progress-bar {
+  @apply bg-gray-100 rounded-full h-4 overflow-hidden;
+}
+
+.progress-fill {
+  background-color: #7C9D96;
+  @apply h-full transition-all duration-300;
+}
+
+.section-title {
+  color: #555555;
+  @apply text-xl font-bold mb-3 ml-2;
+}
+
+.amount-positive {
+  color: #7C9D96;
+  @apply font-bold;
+}
+
+.amount-negative {
+  color: #E76161;
+  @apply font-bold;
+}
+
+.icon-container {
+  @apply w-10 h-10 rounded-full flex items-center justify-center mr-3;
+}
+
+.floating-button {
+  background-color: #7C9D96;
+  @apply rounded-full w-14 h-14 flex items-center justify-center shadow-lg;
+}
+
+.quick-menu {
+  @apply mb-20;
+}
+
+.quick-action-button {
+  @apply text-white text-sm py-2 px-4 rounded-lg mb-2 shadow-md;
+  min-width: 120px;
+}
+
+.notification-badge {
+  background-color: #E76161;
+  @apply absolute top-0 right-0 w-4 h-4 rounded-full text-white text-xs flex items-center justify-center;
+}
+
+.reminder-card {
+  background-color: #FFF9E8;
+  @apply rounded-xl p-3 mb-2 border border-[#F4DFB6];
+}
+
+.chart-container {
+  @apply bg-white rounded-xl p-4 my-2;
+  height: 200px;
+}
+
+.tag {
+  @apply bg-gray-100 text-gray-600 text-xs py-1 px-2 rounded-full mr-1;
+}
+
+.category-icon {
+  @apply w-8 h-8 rounded-full flex items-center justify-center text-white mb-1;
+}
+
+.swipeable-row {
+  @apply relative;
+}
+
+.swipe-actions {
+  @apply absolute top-0 bottom-0 right-0 flex;
+}
+
+.swipe-action {
+  @apply w-16 h-full flex items-center justify-center text-white;
+}
+
+.swipe-delete {
+  background-color: #E76161;
+}
+
+.swipe-edit {
+  background-color: #7C9D96;
+}
+
+.modal-content {
+  background-color: #FFFFFF;
+  @apply rounded-t-3xl p-6;
+}
+
+.modal-handle {
+  @apply w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4;
+}
+
+.form-group {
+  @apply mb-4;
+}
+
+.form-label {
+  @apply text-gray-600 text-sm mb-1;
+}
+
+.form-input {
+  @apply bg-gray-50 border border-gray-200 rounded-xl p-3 w-full;
+}
+
+.form-select {
+  @apply bg-gray-50 border border-gray-200 rounded-xl p-3 w-full appearance-none;
+}
+
+.form-checkbox {
+  @apply rounded border-gray-300 text-[#7C9D96] mr-2;
+}
+
+.calendar-day {
+  @apply w-10 h-10 rounded-full flex items-center justify-center;
+}
+
+.calendar-day-active {
+  background-color: #7C9D96;
+  @apply text-white;
+}
+
+.calendar-day-expense {
+  @apply border-2 border-[#E76161];
+}
+
+.stat-card {
+  @apply bg-white rounded-xl p-4 shadow-sm;
+}
+
+.stat-value {
+  @apply text-2xl font-bold text-[#7C9D96];
+}
+
+.stat-label {
+  @apply text-sm text-gray-500;
+}
+
+.trend-positive {
+  @apply text-[#7C9D96];
+}
+
+.trend-negative {
+  @apply text-[#E76161];
+}
